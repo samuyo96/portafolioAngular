@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ItemsService } from '../../services/items.service';
+import { ItemComplete } from '../../interfaces/itemComplete.interface';
 
 @Component({
   selector: 'app-item',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemComponent implements OnInit {
 
-  constructor() { }
+  itemDescrp: ItemComplete = {};
+  itemId?: string;
+  load = false;
+
+  constructor(private route: ActivatedRoute,
+              public itemServ: ItemsService) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params =>{
+      this.itemServ.getItem(params['id'])
+      .subscribe ((item: ItemComplete) => {
+        this.itemDescrp = item;
+        this.itemId = params['id'];
+        this.load = true;
+      });
+    });
   }
 
 }

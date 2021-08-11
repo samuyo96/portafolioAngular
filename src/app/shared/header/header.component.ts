@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { InfopageService } from '../../services/infopage.service';
 
 @Component({
@@ -8,11 +9,18 @@ import { InfopageService } from '../../services/infopage.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public _service: InfopageService) {
+  constructor(public _service: InfopageService,
+              private router: Router) {
 
   }
 
   ngOnInit(): void {
   }
 
+  searchItem(term: string) {
+    if (term.length == 0){
+      return;
+    }
+    this.router.navigate(['/search', term]);
+  }
 }
